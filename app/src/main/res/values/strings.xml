@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">LinkedinAPISample</string>
+
+    <string name="action_settings">Settings</string>
+
+    <string name="info_message_keyhash_and_package">Enter each pair (package name followed by hash) on a new line in https://www.linkedin.com/secure/developer Application Details. Use \',\' as delimiter to separate package name and hash within each pair.</string>
+
+    <string name="string_hash_and_package">Step 01) Generate Hash</string>
+    <string name="string_login_to_linkedin">Step 02) Login To Linkedin</string>
+    <string name="string_get_currentuser">Step 03) Get Current User From Linkedin</string>
+    <string name="string_get_user_connections">Step 04) Get User Connections From Linkedin</string>
+
+    <string name="information_message_loading">Loading Please wait...</string>
+</resources>
