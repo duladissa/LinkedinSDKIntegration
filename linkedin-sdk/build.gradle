@@ -40,8 +40,9 @@ configurations {
 dependencies {
     compile 'com.android.support:support-annotations:20.0.0'
     compile 'com.android.support:support-v4:21.0.+'
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile files('libs/volley.jar')
+    //compile fileTree(dir: 'libs', include: ['*.jar'])
+    //compile files('libs/volley.jar')
+    compile project(':Volley')
     androidTestCompile('junit:junit:4.12')
     androidTestCompile('org.robolectric:robolectric:2.4')
 }

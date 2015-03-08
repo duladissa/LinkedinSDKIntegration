@@ -36,10 +36,14 @@ public class SDKIntergrationActivity extends ActionBarActivity {
 
     private static final String TAG = SDKIntergrationActivity.class.getCanonicalName();
 
+    private static final String PROTECTED_URL_GET_CURRENT_USER_PROFILE = "https://api.linkedin.com/v1/people/~:(id,first-name,last-name,email-address,picture-url,industry)";
+    public static final String PROTECTED_URL_GET_CURRENT_USER_CONNECTIONS = "https://api.linkedin.com/v1/people/~/connections";
+
     private static final int TAG_BUTTON_GENERATE_HASH = 0;
     private static final int TAG_BUTTON_LOGIN = 1;
     private static final int TAG_BUTTON_GET_CURRENT_USER = 2;
     private static final int TAG_BUTTON_GET_USER_CONNECTIONS = 3;
+    private static final int TAG_BUTTON_LOGOUT = 4;
 
     private LISessionManager liSessionManager;
     private Activity currentActivity;
@@ -47,6 +51,9 @@ public class SDKIntergrationActivity extends ActionBarActivity {
     private TextView tvContent;
     private Button btnGenerateHash;
     private Button btnLogin;
+    private Button btnGetCurrentUser;
+    private Button btnGetCurrentUserConnections;
+    private Button btnLogout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,7 +85,17 @@ public class SDKIntergrationActivity extends ActionBarActivity {
         btnLogin.setTag(TAG_BUTTON_LOGIN);
         btnLogin.setOnClickListener(btn_OnClickListener);
 
+        btnGetCurrentUser = (Button)findViewById(R.id.btn_getCurrentUser);
+        btnGetCurrentUser.setTag(TAG_BUTTON_GET_CURRENT_USER);
+        btnGetCurrentUser.setOnClickListener(btn_OnClickListener);
 
+        btnGetCurrentUserConnections = (Button)findViewById(R.id.btn_getUserConnections);
+        btnGetCurrentUserConnections.setTag(TAG_BUTTON_GET_USER_CONNECTIONS);
+        btnGetCurrentUserConnections.setOnClickListener(btn_OnClickListener);
+
+        btnLogout = (Button)findViewById(R.id.btn_logout);
+        btnLogout.setTag(TAG_BUTTON_LOGOUT);
+        btnLogout.setOnClickListener(btn_OnClickListener);
     }
 
     View.OnClickListener btn_OnClickListener = new View.OnClickListener() {
@@ -96,11 +113,15 @@ public class SDKIntergrationActivity extends ActionBarActivity {
                     break;
 
                 case TAG_BUTTON_GET_CURRENT_USER:
-                    //getCurrentUser();
+                    getCurrentUser();
                     break;
 
                 case TAG_BUTTON_GET_USER_CONNECTIONS:
-                    //getUserConnections();
+                    getUserConnections();
+                    break;
+
+                case TAG_BUTTON_LOGOUT:
+                    logout();
                     break;
 
             }
@@ -143,7 +164,6 @@ public class SDKIntergrationActivity extends ActionBarActivity {
 //
 //            liSessionManager.init(token);
 //        }
-
         liSessionManager.init(currentActivity, buildScope(), new AuthListener() {
             @Override
             public void onAuthSuccess() {
@@ -158,8 +178,45 @@ public class SDKIntergrationActivity extends ActionBarActivity {
     }
 
     private static Scope buildScope() {
-        return Scope.build(Scope.R_FULLPROFILE, Scope.R_EMAILADDRESS);
+        return Scope.build(Scope.R_FULLPROFILE, Scope.R_EMAILADDRESS,new Scope.LIPermission("r_network","User Connections list"));
     }
 
+    //Step 03 ) Get Current user
+    private void getCurrentUser(){
 
+        APIHelper apiHelper = APIHelper.getInstance(getApplicationContext());
+        apiHelper.getRequest(SDKIntergrationActivity.this, PROTECTED_URL_GET_CURRENT_USER_PROFILE, new ApiListener() {
+            @Override
+            public void onApiSuccess(ApiResponse s) {
+                Log.e("","User Profile="+s.toString());
+            }
+
+            @Override
+            public void onApiError(LIApiError error) {
+                Log.e("","ERROR="+error.toString());
+            }
+        });
+    }
+
+    //Step 04 ) Get User Connections
+    private void getUserConnections(){
+
+        APIHelper apiHelper = APIHelper.getInstance(getApplicationContext());
+        apiHelper.getRequest(SDKIntergrationActivity.this, PROTECTED_URL_GET_CURRENT_USER_CONNECTIONS, new ApiListener() {
+            @Override
+            public void onApiSuccess(ApiResponse s) {
+                Log.e("","User Connections="+s.toString());
+            }
+
+            @Override
+            public void onApiError(LIApiError error) {
+                Log.e("","ERROR="+error.toString());
+            }
+        });
+    }
+
+    //Step 05 ) Logout
+    private void logout(){
+        liSessionManager.clearSession();
+    }
 }

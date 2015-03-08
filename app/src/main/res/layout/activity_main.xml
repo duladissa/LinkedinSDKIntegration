@@ -35,4 +35,9 @@
         android:layout_height="wrap_content"
         android:text="@string/string_get_user_connections"/>
 
+    <Button
+        android:id="@+id/btn_logout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/string_logout"/>
 </LinearLayout>

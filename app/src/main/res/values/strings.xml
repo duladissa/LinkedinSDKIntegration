@@ -9,6 +9,7 @@
     <string name="string_login_to_linkedin">Step 02) Login To Linkedin</string>
     <string name="string_get_currentuser">Step 03) Get Current User From Linkedin</string>
     <string name="string_get_user_connections">Step 04) Get User Connections From Linkedin</string>
+    <string name="string_logout">Step 05) Logout</string>
 
     <string name="information_message_loading">Loading Please wait...</string>
 </resources>
